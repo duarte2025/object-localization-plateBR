@@ -1,2 +1,2 @@
-Um localização de objeto para placas Brasileiras, baseada em mobilenetV2 e U-Net Segmentation.
-Para validação do modelo utilizou a coeficiente Dice, na qual obteve 0.8088, o que podemos disser que acertou 80% da localização esperada.
+An object location for Brazilian boards, based on mobilenetV2 and U-Net Segmentation.
+For validation of the model, the Dice coefficient was used, in which it obtained 0.8088, which we can say that hit 80% of the expected location.
