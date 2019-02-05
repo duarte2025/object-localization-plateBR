@@ -5,6 +5,7 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 from tensorflow.keras import Model
+import time
 #from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2, preprocess_input
 from tensorflow.keras.applications.vgg16 import VGG16, preprocess_input
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau, Callback
@@ -29,7 +30,7 @@ THREADS = 4
 
 SMOOTH = 1
 
-TRAIN_CSV = "validation.csv"
+TRAIN_CSV = "train.csv"
 VALIDATION_CSV = "validation.csv"
 
 class DataGenerator(Sequence):
@@ -49,7 +50,7 @@ class DataGenerator(Sequence):
                 for i, r in enumerate(row[1:7]):
                     row[i+1] = int(r)
 
-                path, x0, y0, x1, y1, image_height, image_width = row
+                path,image_height, image_width, x0, y0, x1, y1 = row
 
                 self.x1.append(np.rint(((GRID_SIZE - 1) / image_width) * x0).astype(int))
                 self.x2.append(np.rint(((GRID_SIZE - 1) / image_width) * x1).astype(int))
@@ -77,7 +78,6 @@ class DataGenerator(Sequence):
             batch_masks[i, y1[i]: y2[i], x1[i] : x2[i]] = 1
             batch_images[i] = preprocess_input(np.array(img, dtype=np.float32))
             img.close()
-
         return batch_images, batch_masks[:,:,:,np.newaxis]
 
 class Validation(Callback):
